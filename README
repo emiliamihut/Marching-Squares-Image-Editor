@@ -1,46 +1,40 @@
-//Mihut Emilia 311 CA
-Marching Squares
+# Algorithm Overview
 
-Algoritmul implementat urmareste ideea prezentata in enunt sub forma unor
-functii care, odata ce au fost citite din stdin, trebuie sa faca modificarile
-necesare asupra matricelor de pixeli pentru a obtine rezultatul dorit.
-Pentru fiecare comanda citita avem o functie cu acelasi nume.
+The algorithm uses functions mapped to commands read from standard input. Each function modifies the pixel matrix to achieve specific image processing steps.
 
-Functia Read ma ajuta sa citesc imaginea in format PPM si verifica daca 
-dateel introduse sunt corecte, afisand un mesaj de eroare in caz contrar.
-Este important de mentionat ca matricele folosite sunt alocate dinamic, avand
-grija sa eliberam memoria de cate ori e nevoie.
-Pentru usurinta am creat o matrice de structuri unde pt fiecare pixel se retin
-4 valori, r,g,b, si l, luminozitatea calculata ca fiind media aritmetica rgb.
-+ maxvalue e constant 255.
+## Read Function
 
-Functia write imi afiseaza matricea de pixeli, conform enuntului si formatului.
+- Reads an image in PPM format.
+- Checks the correctness of input data and displays an error message if necessary.
+- Utilizes dynamically allocated matrices with proper memory removal.
+- Each pixel is represented by a structure: red, green, blue, and brightness (arithmetic mean of RGB).
+- The `maxvalue` constant is set at 255.
 
-Functia  resize imi redimensioneaza imagine, fiecare pixel fiind replicat 
-pentru a genera o imagine de 4 ori mai mare pe fiecare axa.
-Astfel, dimensiunea finala devine de 16 ori mai mare in termeni de numar 
-de pixeli.
+## Write Function
 
-Functia grid creeaza o matrice (grid) de luminozitate impartind imaginea in
-celule de 4x4. Noi vom calcula cu o linie si coloana in plus pentru a ne ajuta
-mai departe la functia march. Fiecare celula este reprezentata de un singur 
-pixel in grid, calculat ca o medie ponderata a pixelilor vecini din colturi
-(in x) + nodul in sine daca e existent. Am luat cazuri in functie de 
-coordonatele pixelilor deoarece cei de pe ultima linie sau coloana nu se pun 
-in calcul, ci doar vecinii existenti din colturi. Valoarea luminozitatii este
-apoi binarizata (1 sau 0), in functie de un prag stabilit, adica 200.
+- Outputs the pixel matrix in the required format.
 
-Functia march analizeaza gridul generat pentru a desena contururi bazate pe 
-valorile binare ale celulelor. Contururile sunt desenate prin modificarea 
-valorilor pixelilor direct in matricea imaginii. Ne folosim de cele 16 matrici
-deja stiute/fixate definite de functia init_contur care imi creeaza matruicea 
-contur 16x16, fiecare linie i reprezentand valorile celor 16 pixeli ai matricei
-contur i.
+## Resize Function
 
-Iesirea din program se face prin comanda EXIT : seelibereaza memoria alocata
-dinamic pentru imagine si se afiseaza un mesaj de confirmare. Daca nu avem
-EXIT,atunci inseamna ca avem o eroare analizata in read, deci avem grija sa 
-actualizam variabila exit care imi arata constant daca programul s a incheiat
-sau nu.
+- Enlarges the image by replicating each pixel.
+- Expands the image four times along each axis, making it 16 times bigger in pixel count.
 
+## Grid Function
 
+- Creates a brightness grid by dividing the image into 4x4 cells.
+- Includes an extra row and column to assist the marching squares step.
+- Each grid cell stores a weighted average of neighbor corner pixels and itself, if present.
+- Handles cells on the last row or column using only existing neighbors.
+- Binarizes brightness at a threshold of 200 (values become either 1 or 0).
+
+## March Function
+
+- Analyzes the binary grid to detect contours.
+- Draws contours by changing pixel values directly in the image matrix.
+- Utilizes 16 fixed pattern matrices, each corresponding to one of the possible 4-bit contour configurations.
+
+## Program Exit
+
+- The `EXIT` command frees all dynamically allocated memory related to the image.
+- Prints a confirmation message on program exit.
+- Error handling or invalid input will update a flag and display a relevant error message.
